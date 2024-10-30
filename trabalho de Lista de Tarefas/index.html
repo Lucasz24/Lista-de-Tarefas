@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: white;
+        }
+        h1 {
+            text-align: center;
+            color: navy;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid navy;
+            border-radius: 8px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-sizing: border-box; 
+        }
+        button {
+            background-color: navy;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: darkblue;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid navy;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: navy;
+            color: white;
+        }
+        td button {
+            background-color: darkred;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        td button:hover {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Lista de Tarefas</h1>
+        <input type="text" id="taskInput" placeholder="Nova tarefa">
+        <button onclick="addTask()">Adicionar</button>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>N</th>
+                    <th>Tarefa</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="taskList"></tbody>
+        </table>
+    </div>
+
+    <script>
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const taskText = input.value.trim();
+
+            if (!taskText) {
+                alert("Primeiro digite uma tarefa!");
+                return;
+            }
+
+            const taskList = document.getElementById('taskList');
+            const row = document.createElement('tr');
+            const taskCount = taskList.children.length + 1; 
+
+            row.innerHTML = `
+                <td>${taskCount}</td>
+                <td>${taskText}</td>
+                <td><button onclick="removeTask(this)">Excluir</button></td>
+            `;
+            taskList.appendChild(row);
+            input.value = "";
+        }
+
+        function removeTask(button) {
+            button.closest('tr').remove();
+            updateTaskNumbers();
+        }
+
+        function updateTaskNumbers() {
+            const taskList = document.getElementById('taskList');
+            Array.from(taskList.children).forEach((row, index) => {
+                row.cells[0].innerText = index + 1; 
+            });
+        }
+    </script>
+
+</body>
+</html>
